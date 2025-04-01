@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('./font/Source_Sans_3/SourceSans3-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    /* Variable font supports multiple weights */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('./font/Source_Sans_3/SourceSans3-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('./assets/fonts/SourceSans3-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Source Sans 3', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-family: 'Source Sans 3', sans-serif;
+}
+
+button {
+    border-radius: 0% !important;
+}
+
+table td,
+table th {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+}

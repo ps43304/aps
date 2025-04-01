@@ -1,0 +1,53 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build files
+build/
+dist/
+out/
+
+# Logs
+logs/
+*.log
+
+#Database
+database.db
+
+
+# Dependencies
+package-lock.json
+yarn.lock
+
+# Editor & OS files
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# PHP Specific
+vendor/
+composer.lock
+
+# Next.js
+.next/
+
+# React CDN setup
+*.cache/
+
+
+# Misc
+coverage/
+public/uploads/
+
+# Ignore built assets from Webpack
+webpack-assets.json
+
+# Electron.js
+/.electron-winstaller/
+/.cache/
+/electron-builder-cache/
+/electron-builder-output/
+/temp/
+*.asar

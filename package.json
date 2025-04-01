@@ -1,0 +1,21 @@
+{
+  "name": "aps",
+  "version": "0.0.1",
+  "description": "",
+  "license": "ISC",
+  "author": "Pankaj Sharma",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ELECTRON_NO_SANDBOX=1 ELECTRON_DISABLE_GPU=1 electronmon -disable-gpu --no-sandbox ."
+  },
+  "devDependencies": {
+    "electron": "^35.0.1",
+    "electron-rebuild": "^3.2.9",
+    "electronmon": "^2.0.3"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}
