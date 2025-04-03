@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet">
     <link href="./assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/bootstrap/css/bootstrap-icon.min.css" rel="stylesheet" />
     <link href="./assets/style.css" rel="stylesheet" />
   </head>
   <body>
@@ -19,7 +20,7 @@
         <div class="card-body">
           <form>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Brand Name"
+              <input type="text" class="form-control" placeholder="Brand Name" id="name"
                 aria-label="Name" aria-describedby="button-addon2">
               <button class="btn btn-outline-success" type="submit"
                 id="brandSave">Save</button>
@@ -31,7 +32,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">List</h5>
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="brands">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -41,14 +42,6 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th>1</th>
-                  <td>asdas</td>
-                  <td>Otto</td>
-                  <td><button type="button"
-                      class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">Edit</button></td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -59,7 +52,7 @@
     <!-- Edit -->
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+    <div class="modal fade" id="editBrand" data-bs-backdrop="static"
       data-bs-keyboard="false" tabindex="-1"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -73,31 +66,20 @@
           <div class="modal-body">
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="Brand Name"
-                aria-label="Name" aria-describedby="button-addon2" required>
-              <button class="btn btn-outline-success" type="button"
-                id="button-addon2">Save</button>
+                aria-label="Name" aria-describedby="button-addon2" id="brandName">
+              <input type="hidden" name="brandId" id="brandId" value="" />
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary"
+            <button type="button" class="btn btn-secondary btn-sm"
               data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-primary btn-sm" id="editSaveButton">Save</button>
           </div>
         </div>
       </div>
     </div>
-
     <script src="./assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-
-      document.getElementById('brandSave').addEventListener('click', function(event){
-          event.preventDefault();
-          
-
-      })
-
-    </script>
+    <script src="./Brand.js" ></script>
 
   </body>
 </html>

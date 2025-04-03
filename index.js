@@ -1,7 +1,7 @@
 
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu, Notification } = require('electron')
 const path = require('node:path')
-const { insertBrand, getUsers } = require('./database');
+const { insertBrand, getAllBrands, deleteBrand, editBrand } = require('./database');
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -11,6 +11,7 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       devTools: true,
+      contextIsolation: true
     }
   })
 
@@ -24,23 +25,47 @@ const createWindow = () => {
   })
 
 
-  ipcMain.handle('add-user', async (_, name, email) => {
+  
+  ipcMain.handle('insertBrand', async (_, name) => {
     return new Promise((resolve, reject) => {
-      insertBrand(name, email, (err, user) => {
+      insertBrand(name, (err, user) => {
         if (err) reject(err);
         else resolve(user);
       });
     });
   });
 
-  ipcMain.handle('get-users', async () => {
+  ipcMain.handle('deleteBrand', async (_, id) => {
     return new Promise((resolve, reject) => {
-      getUsers((err, users) => {
+      deleteBrand(id, (err, user) => {
         if (err) reject(err);
-        else resolve(users);
+        else resolve(user);
       });
     });
   });
+
+  ipcMain.handle('editBrand', async (_, name, id) => {
+    return new Promise((resolve, reject) => {
+      editBrand(name, id, (err, user) => {
+        if (err) reject(err);
+        else resolve(user);
+      });
+    });
+  });
+
+  ipcMain.handle("getAllBrands", async () => {
+    return new Promise((resolve, reject) => {
+      getAllBrands((err, brands) => {
+        if (err)  resolve({ error: true, message: err.message });
+        else resolve({ error: false, data: brands });
+      });
+    });
+  });
+
+  ipcMain.on("show-notification", (_, { title, body }) => {
+    new Notification({ title, body }).show();
+  });
+ 
 
   ipcMain.handle('closeApp', () => {
     win.close();
@@ -84,8 +109,6 @@ const createWindow = () => {
   //mainWindow.webContents.openDevTools();
 }
 
-app.commandLine.appendSwitch('disable-gpu');
-app.commandLine.appendSwitch('disable-software-rasterizer');
 
 app.whenReady().then(() => {
   createWindow()
