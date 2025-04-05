@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com;">
+    <title>APS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
+    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/bootstrap/css/bootstrap-icon.min.css" rel="stylesheet" />
+    <link href="../assets/sweetalert/sweetalert.min.css" rel="stylesheet" />
+    <script src="../assets/sweetalert/sweetalert.min.js"></script>
+    <link href="../assets/flatpicker/flat.min.css" rel="stylesheet" />
+    <script src="../assets/flatpicker/flat.min.js"></script>
+    <link href="../assets/bootstrap/css/bootstrap-icon.min.css" rel="stylesheet" />
+    <link href="../assets/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid mt-3">
+      <div class="card">
+        <div class="card-body">
+          <form>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Brand Name" id="name"
+                aria-label="Name" aria-describedby="button-addon2">
+              <button class="btn btn-outline-success" type="submit"
+                id="brandSave">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="list mt-1">
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-12"><button class="btn btn-outline-success btn-sm float-right" id="refreshPage">Refresh</button></div>
+              <div class="calander col-md-4">
+                  <label>Date:</label>
+                    <input id="datePicker" class="form-control" />
+              </div>
+              <div class="col-md-4"></div>
+              <div class="search col-md-4">
+                  <label>Search:</label>
+                  <input name="search" class="form-control" id="search" />
+              </div>
+            </div>
+
+            <h5 class="card-title">List</h5>
+            <table class="table table-bordered" id="brands">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Created Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editBrand" data-bs-backdrop="static"
+      data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit
+              Brand</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Brand Name"
+                aria-label="Name" aria-describedby="button-addon2" id="brandName">
+              <input type="hidden" name="brandId" id="brandId" value="" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm"
+              data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary btn-sm" id="editSaveButton">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./Brand.js" ></script>
+  </body>
+</html>

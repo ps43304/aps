@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.join(__dirname, 'database.db'); // डेटाबेस फ़ाइल
+const dbPath = path.join(__dirname, '..', 'database.db');
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
     if (err) {
         console.error('Error connecting to database:', err.message);
@@ -74,8 +74,21 @@ const editBrand = (name, id, callback) => {
   );
 };
 
-function getAllBrands(callback) {
-    db.all("SELECT * FROM brands where status = ?", [1], (err, rows) => {
+function getAllBrands(param, callback) {
+    let query = "SELECT * FROM brands where status = ?";
+    let type  = [1];
+    if (param) {
+      if(Array.isArray(param.dateRange) && param.dateRange.length === 2){
+        query += " AND (created_at >= ? AND created_at <= ?)";
+        type.push(param.dateRange[0].trim() + ' 00:00:00', param.dateRange[1].trim() + ' 23:59:59');
+      }
+      if( typeof param?.search !== 'undefined' && param?.search){
+        query += ` AND name LIKE ?`;
+        type.push(`${param?.search}%`);
+      }
+    }
+
+    db.all(query, type, (err, rows) => {
       if (err) return callback(err);
       callback(null, rows);
     });
