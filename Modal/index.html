@@ -55,11 +55,12 @@
             </div>
 
             <h5 class="card-title">List</h5>
-            <table class="table table-bordered" id="brands">
+            <table class="table table-bordered" id="models">
               <thead>
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Brand</th>
                   <th scope="col">Created Date</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -89,6 +90,11 @@
               <input type="text" class="form-control" placeholder="Brand Name"
                 aria-label="Name" aria-describedby="button-addon2" id="brandName">
               <input type="hidden" name="brandId" id="brandId" value="" />
+            </div>
+            <div class="input-group">
+              <select name="brand" id="brandModels" class="form-control">
+                <option>--Select Brand--</option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">

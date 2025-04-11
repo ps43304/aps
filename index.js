@@ -2,7 +2,7 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('node:path')
 const { insertBrand, getAllBrands, deleteBrand, editBrand } = require('./Brand/database');
-const { getAllBrandsInModal, insertModal } = require('./Modal/database');
+const { getAllBrandsInModal, insertModal, getAllModels, deleteModels, editModal } = require('./Modal/database');
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
@@ -31,18 +31,12 @@ const createWindow = () => {
 
     const menuTemplate = [
       {
-        label: "File", // यहाँ मेनू का नया नाम डालें
-        submenu: [
-          { label: "Brand", click: () => mainWindow.loadFile("Brand/index.html") },
-          { label: "Model", click: () => mainWindow.loadFile("Modal/index.html") },
-          { label: "Type", click: () => console.log("Open clicked") },
-          { label: "Exit", role: "quit" }
-        ]
+        label: "Dashboard"
       },
-      {
-        label: "Stock",
-        click: () => console.log("Stock")
-      },
+      { label: "Brand", click: () => mainWindow.loadFile("Brand/index.html") },
+      { label: "Model", click: () => mainWindow.loadFile("Modal/index.html") },
+      {label: "Stock", click: () => console.log("Stock")},
+      { label: "Exit", role: "quit" },
       {
         label: "View",
         submenu: [
@@ -121,7 +115,32 @@ const createWindow = () => {
       });
     });
 
-  
+    ipcMain.handle("getAllModels", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        getAllModels(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+
+    ipcMain.handle('deleteModels', async (_, id) => {
+      return new Promise((resolve, reject) => {
+        deleteModels(id, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    ipcMain.handle('editModal', async (_, name, id, brandSelect) => {
+      return new Promise((resolve, reject) => {
+        editModal(name, id, brandSelect, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
 
 
   mainWindow.loadURL(`index.html`);
