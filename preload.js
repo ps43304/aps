@@ -13,8 +13,8 @@ contextBridge.exposeInMainWorld("electron", {
   
   /* Type Routes */
   getAllBrandsInType: () => ipcRenderer.invoke("getAllBrandsInType"),
-
-
-
+  getAllModels: (param) => ipcRenderer.invoke("getAllModels", param),
+  deleteModels: (id) => ipcRenderer.invoke("deleteModels", id),
+  editModal: (name, id, brandSelect) => ipcRenderer.invoke("editModal", name, id, brandSelect),
 
 });

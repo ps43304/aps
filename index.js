@@ -2,7 +2,7 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('node:path')
 const { insertBrand, getAllBrands, deleteBrand, editBrand } = require('./Brand/database');
-const { getAllBrandsInModal, insertModal } = require('./Modal/database');
+const { getAllBrandsInModal, insertModal, getAllModels, deleteModels, editModal } = require('./Modal/database');
 
 const { getAllBrandsInType } = require('./Type/database');
 
@@ -134,13 +134,39 @@ const createWindow = () => {
         });
       });
     });
-    
-    
-    mainWindow.loadURL(`index.html`);
-    //mainWindow.webContents.openDevTools();
-  }
-  
-  
+
+    ipcMain.handle("getAllModels", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        getAllModels(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+
+    ipcMain.handle('deleteModels', async (_, id) => {
+      return new Promise((resolve, reject) => {
+        deleteModels(id, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    ipcMain.handle('editModal', async (_, name, id, brandSelect) => {
+      return new Promise((resolve, reject) => {
+        editModal(name, id, brandSelect, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+
+  mainWindow.loadURL(`index.html`);
+}
+
+
 app.whenReady().then(() => {
   createWindow()
   app.on('activate', () => {

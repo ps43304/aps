@@ -32,9 +32,9 @@ const insertModal = (name, brand_id, callback) => {
     });
 };
 
-const deleteBrand = (id, callback) => {
+const deleteModels = (id, callback) => {
   db.run(
-    "UPDATE brands SET status = ? WHERE id = ?",
+    "UPDATE models SET status = ? WHERE id = ?",
     [0, id],
     function (err) {
       if (err) {
@@ -42,10 +42,8 @@ const deleteBrand = (id, callback) => {
         callback(err, null);
       } else {
         if (this.changes > 0) {
-          console.log("Brand updated successfully!");
           callback(null, { success: true, message : 'Delete Successfuly'  });
         } else {
-          console.log("No brand found with the given name.");
           callback(null, { success: false, message: "Something Wrong try again" });
         }
       }
@@ -53,10 +51,11 @@ const deleteBrand = (id, callback) => {
   );
 };
 
-const editBrand = (name, id, callback) => {
+const editModal = (name, id, brandSelect,  callback) => {
+  let type = [name, brandSelect, id];
   db.run(
-    "UPDATE brands SET name = ? WHERE id = ?",
-    [name, id],
+    "UPDATE models SET name = ?, brand_id = ? WHERE id = ?",
+    type,
     function (err) {
       if (err) {
         console.error("Error updating brand:", err.message);
@@ -82,4 +81,32 @@ function getAllBrandsInModal(callback) {
       callback(null, rows);
     });
 }
-module.exports = { db, insertModal, getAllBrandsInModal, deleteBrand, editBrand };
+
+function getAllModels(param, callback) {
+  let query = `SELECT models.*, models.name as modelName, models.name as modelName, brands.id as brandId, brands.name as brandName FROM models LEFT JOIN brands ON brands.id = models.brand_id WHERE models.status = ?`;
+  let type  = [1];
+
+  if (param) {
+      if (Array.isArray(param.dateRange) && param.dateRange.length === 2) {
+          query += " AND (models.created_at >= ? AND models.created_at <= ?)";
+          type.push(param.dateRange[0].trim() + ' 00:00:00', param.dateRange[1].trim() + ' 23:59:59');
+      }
+
+      if (typeof param.search !== 'undefined' && param.search) {
+          query += ` AND (models.name LIKE ?  OR brandName LIKE ?  )`;
+          type.push(`${param.search}%`);
+      }
+  }
+
+  console.log(query, 'query')
+
+  db.all(query, type, (err, rows) => {
+      if (err) {
+          return callback(err);
+      }
+      callback(null, rows);
+  });
+}
+
+
+module.exports = { db, insertModal, getAllModels, getAllBrandsInModal, deleteModels, editModal };
