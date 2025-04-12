@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>APS Modal</title>
+    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/bootstrap/css/bootstrap-icon.min.css" rel="stylesheet" />
+    <link href="../assets/sweetalert/sweetalert.min.css" rel="stylesheet" />
+    <script src="../assets/sweetalert/sweetalert.min.js"></script>
+    <link href="../assets/flatpicker/flat.min.css" rel="stylesheet" />
+    <script src="../assets/flatpicker/flat.min.js"></script>
+    <link href="../assets/bootstrap/css/bootstrap-icon.min.css" rel="stylesheet" />
+    <link href="../assets/style.css" rel="stylesheet" />
+  </head>
+  <body>
+        <div class="list mt-1">        
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <button class="btn btn-outline-success btn-sm float-right ms-3" onclick="openAddModal()">Add</button>
+                            <button class="btn btn-outline-success btn-sm float-right" id="refreshPage">Refresh</button>
+                        </div>
+                        <div class="calander col-md-4">
+                            <label>Date:</label>
+                            <input id="datePicker" class="form-control" />
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="search col-md-4">
+                            <label>Search:</label>
+                            <input name="search" class="form-control" id="search" />
+                        </div>
+                    </div>
+                    <h5 class="card-title">List</h5>
+                    <table class="table table-bordered" id="brands">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- Modal -->
+        <div class="modal fade" id="addStock" data-bs-backdrop="static"
+        data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add
+                        Stock</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-1">
+                                <label>Type Name</label>
+                                <input name="type_name" class="form-control" id="type_name" />
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <label>Brand Name</label>
+                                <select name="brand_id" class="form-control">
+                                    <option>--Select--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <label>Model Name</label>
+                                <select name="model_id" class="form-control">
+                                    <option>--Select--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <label>Quantity</label>
+                                <input name="qty" class="form-control" id="qty" />
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <label>Price</label>
+                                <input name="price" class="form-control" id="price" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="editSaveButton">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="./Stock.js" ></script>
+    </body>
+</html>

@@ -66,3 +66,16 @@ table th {
     float: inline-end;
 }
 
+input, select {
+    padding: 0px 0px 0px 8px !important;
+    font-size: .8rem !important;
+    height: 2rem !important;
+    border-radius: 0 !important;
+}
+
+.btn {
+    padding-left: 1rem !important; 
+    padding-right: 1rem !important;
+    padding: 0;
+}
+

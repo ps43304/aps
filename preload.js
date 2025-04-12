@@ -10,4 +10,11 @@ contextBridge.exposeInMainWorld("electron", {
   /* Modal Route */
   getAllBrandsInModal: () => ipcRenderer.invoke("getAllBrandsInModal"),
   insertModal : (name, brand_id) => ipcRenderer.invoke("insertModal", name, brand_id),
+  
+  /* Type Routes */
+  getAllBrandsInType: () => ipcRenderer.invoke("getAllBrandsInType"),
+
+
+
+
 });

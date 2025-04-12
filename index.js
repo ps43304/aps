@@ -4,6 +4,8 @@ const path = require('node:path')
 const { insertBrand, getAllBrands, deleteBrand, editBrand } = require('./Brand/database');
 const { getAllBrandsInModal, insertModal } = require('./Modal/database');
 
+const { getAllBrandsInType } = require('./Type/database');
+
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
       width: 800,
@@ -35,13 +37,13 @@ const createWindow = () => {
         submenu: [
           { label: "Brand", click: () => mainWindow.loadFile("Brand/index.html") },
           { label: "Model", click: () => mainWindow.loadFile("Modal/index.html") },
-          { label: "Type", click: () => console.log("Open clicked") },
+          { label: "Type", click: () =>  mainWindow.loadFile("Type/index.html") },
           { label: "Exit", role: "quit" }
         ]
       },
       {
         label: "Stock",
-        click: () => console.log("Stock")
+        click: () => mainWindow.loadFile("Stock/list.html")
       },
       {
         label: "View",
@@ -111,7 +113,7 @@ const createWindow = () => {
         });
       });
     });
- 
+    
     ipcMain.handle('insertModal', async (_, name, brand_id) => {
       return new Promise((resolve, reject) => {
         insertModal(name, brand_id, (err, user) => {
@@ -120,15 +122,25 @@ const createWindow = () => {
         });
       });
     });
+    
 
+    /* Type Modules */
+
+    ipcMain.handle("getAllBrandsInType", async () => {
+      return new Promise((resolve, reject) => {
+        getAllBrandsInType((err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+    
+    
+    mainWindow.loadURL(`index.html`);
+    //mainWindow.webContents.openDevTools();
+  }
   
-
-
-  mainWindow.loadURL(`index.html`);
-  //mainWindow.webContents.openDevTools();
-}
-
-
+  
 app.whenReady().then(() => {
   createWindow()
   app.on('activate', () => {
