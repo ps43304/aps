@@ -49,7 +49,7 @@ const deleteBrand = (id, callback) => {
           callback(null, { success: false, message: "Something Wrong try again" });
         }
       }
-    }
+    } 
   );
 };
 
@@ -63,7 +63,7 @@ const editBrand = (name, id, callback) => {
         callback(err, null);
       } else {
         if (this.changes > 0) {
-          console.log("Brand updated successfully!");
+          console.log("Brand updatedeee successfully!");
           callback(null, { success: true, message : 'Delete Successfuly'  });
         } else {
           console.log("No brand found with the given name.");
@@ -94,4 +94,13 @@ function getAllBrands(param, callback) {
     });
 }
 
-module.exports = { db, insertBrand, getAllBrands, deleteBrand, editBrand };
+function existBrand(param, callback) {
+  let query = "SELECT count(*) as count FROM brands where status = ? AND name LIKE ?";
+  let type  = [1, `${param?.name}%`];
+  db.get(query, type, (err, rows) => {
+    if (err) return callback(err);
+    callback(null, rows);
+  });
+}
+
+module.exports = { db, insertBrand, getAllBrands, deleteBrand, editBrand, existBrand };

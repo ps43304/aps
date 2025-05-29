@@ -18,22 +18,19 @@
         <div class="card-body">
           <form>
             <div class="row">
-                <div class="col-md-6">
-                   <select name="brand" id="brand" class="form-control">
-                      <option>--Select Brand--</option>
-                   </select>
-                </div>
-                <div class="col-md-6">
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" placeholder="Modal Name" id="name"
-                        aria-label="Name" aria-describedby="button-addon2">
-                      <button class="btn btn-outline-success" type="submit"
+              <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="Modal Name" id="name" aria-label="Name" aria-describedby="button-addon2">
+              </div>
+              <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <select name="brand" id="brand" class="form-control brands">
+                        <option>--Select Brand--</option>
+                    </select>
+                    <button class="btn btn-outline-success" type="submit"
                         id="modelSave">Save</button>
-                    </div>
                 </div>
-
+              </div>
             </div>
-            
           </form>
         </div>
       </div>
@@ -81,19 +78,21 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit
-              Brand</h1>
+              Model</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal"
               aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Brand Name"
-                aria-label="Name" aria-describedby="button-addon2" id="brandName">
-              <input type="hidden" name="brandId" id="brandId" value="" />
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" placeholder="Name"
+                aria-label="Name" aria-describedby="button-addon2" id="name">
+              <input type="hidden" name="id" id="id" value="" />
             </div>
-            <div class="input-group">
-              <select name="brand" id="brandModels" class="form-control">
-                <option>--Select Brand--</option>
+            <div class="">
+              <label class="form-label">Brand</label>
+              <select name="brand" id="brand" class="form-control brands">
+                <option value="">--Select Brand--</option>
               </select>
             </div>
           </div>
@@ -106,6 +105,7 @@
       </div>
     </div>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../Common.js" ></script>
     <script src="./Modal.js" ></script>
   </body>
 </html>

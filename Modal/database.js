@@ -32,7 +32,7 @@ const insertModal = (name, brand_id, callback) => {
     });
 };
 
-const deleteModels = (id, callback) => {
+const deleteModel = (id, callback) => {
   db.run(
     "UPDATE models SET status = ? WHERE id = ?",
     [0, id],
@@ -51,7 +51,7 @@ const deleteModels = (id, callback) => {
   );
 };
 
-const editModal = (name, id, brandSelect,  callback) => {
+const editModel = (name, id, brandSelect,  callback) => {
   let type = [name, brandSelect, id];
   db.run(
     "UPDATE models SET name = ?, brand_id = ? WHERE id = ?",
@@ -62,7 +62,6 @@ const editModal = (name, id, brandSelect,  callback) => {
         callback(err, null);
       } else {
         if (this.changes > 0) {
-          console.log("Brand updated successfully!");
           callback(null, { success: true, message : 'Delete Successfuly'  });
         } else {
           console.log("No brand found with the given name.");
@@ -98,8 +97,6 @@ function getAllModels(param, callback) {
       }
   }
 
-  console.log(query, 'query')
-
   db.all(query, type, (err, rows) => {
       if (err) {
           return callback(err);
@@ -108,5 +105,14 @@ function getAllModels(param, callback) {
   });
 }
 
+function existModel(param, callback) {
+  let query = "SELECT count(*) as count FROM models where status = ? AND name LIKE ? AND brand_id = ?";
+  let type  = [1, `${param?.name}%`, param?.brand_id ];
+  db.get(query, type, (err, rows) => {
+    if (err) return callback(err);
+    callback(null, rows);
+  });
+}
 
-module.exports = { db, insertModal, getAllModels, getAllBrandsInModal, deleteModels, editModal };
+
+module.exports = { db, insertModal, getAllModels, getAllBrandsInModal, deleteModel, editModel, existModel };

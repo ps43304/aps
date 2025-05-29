@@ -36,12 +36,11 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Type Name</th>
-                                <th scope="col">Brand Name</th>
-                                <th scope="col">Model Name</th>
+                                <th scope="col">Customer Name</th>
                                 <th scope="col">Qty</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Created Date</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -54,55 +53,6 @@
 
 
             <!-- Add Modal -->
-        <div class="modal fade" id="addStock" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add
-                        Stock</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6 mb-1">
-                                <label>Type Name</label>
-                                <select class="form-control typeDropDown" id="type_name">
-                                    <option value="">-- Select Type --</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-1">
-                                <label>Brand Name</label>
-                                <select class="brandDropdown form-control brands" id="brandDropdown">
-                                    <option value="">-- Select Brand --</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-1">
-                                <label>Model Name</label>
-                                <select class="modelDropdown form-control models" id="modelDropdown">
-                                    <option value="">-- Model Brand --</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-1">
-                                <label>Quantity</label>
-                                <input name="qty" class="form-control" id="qty" />
-                            </div>
-                            <div class="col-md-6 mb-1">
-                                <label>Price</label>
-                                <input name="price" class="form-control" id="price" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-sm" id="saveNew">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Edit -->
 
@@ -181,7 +131,7 @@
         </div>
 
         <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="./Stock.js" ></script>
+        <script src="./Bill.js" ></script>
         <script src="../Common.js" ></script>
     </body>
 </html>

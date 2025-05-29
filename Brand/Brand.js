@@ -1,8 +1,17 @@
 
 document.getElementById("brandSave").addEventListener("click", async function (event) {
   event.preventDefault();
-  const name = document.getElementById("name").value;
-
+  let name = document.getElementById("name").value;
+  let exist = await window.electron.existBrand({name: name});
+  console.log(exist?.data?.count);
+  if(exist?.data?.count > 0){
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Brand Name already exist.",
+    });
+    return false;
+  }
   if (name.length === 0) {
       Swal.fire({
         icon: "error",
@@ -137,12 +146,5 @@ if(search){
     }else{
       allBrands();
     }
-  })
-}
-
-let refreshPage = document.getElementById('refreshPage');
-if(refreshPage){
-  refreshPage.addEventListener('click', function(){
-      location.reload();
   })
 }

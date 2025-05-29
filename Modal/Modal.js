@@ -3,16 +3,27 @@ document.getElementById("modelSave").addEventListener("click", async function (e
   event.preventDefault();
   const name = document.getElementById("name").value;
   const brand_id = document.getElementById("brand").value;
+
+  let count = await window.electron.existModel({name: name, brand_id: brand_id});
+  if(count?.data?.count > 0){
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Modal and Brand Name already exist.",
+    });
+    return false;
+  }
+
   if (name.length === 0 || (name.value == '') ) {
       Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Brand Name OR Modal Name are Required",
       });
-      return;
+      return false;
   }
 
-  try {
+  try { 
       await window.electron.insertModal(name, brand_id);
       Swal.fire({title: "Add!", text: "Modal inserted successfully!", icon: "success" });
       document.getElementById("name").value = '';
@@ -25,62 +36,17 @@ document.getElementById("modelSave").addEventListener("click", async function (e
   }
 });
 
-
-async function allBrands(param = {}) {
-  try {
-      let all = await window.electron.getAllBrandsInModal(param);
-      let brands = document.querySelector("#brand");
-      let html = '';
-      if(all?.data?.length > 0){
-        for (let element of all.data) {
-            brands.insertAdjacentHTML(
-              'beforeend',
-              `<option value='${element?.id}'>${ucfirst(element?.name)}</option>`
-            );
-        }
-      }
-      
-  } catch (error) {
-      console.error("Insert Error:", error);
-  }
-}
-
-async function allBrandModels(param = {}) {
-  try {
-      let all = await window.electron.getAllBrandsInModal(param);
-      let brands = document.querySelector("#brandModels");
-      let html = '';
-      if(all?.data?.length > 0){
-        for (let element of all.data) {
-            brands.insertAdjacentHTML(
-              'beforeend',
-              `<option value='${element?.id}'>${ucfirst(element?.name)}</option>`
-            );
-        }
-      }
-      
-  } catch (error) {
-      console.error("Insert Error:", error);
-  }
-}
-
-function ucfirst(str) {
-  if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 window.addEventListener("DOMContentLoaded", async () => {
   allModels();
-  allBrands();
-  allBrandModels();
 });
 
 
 function openModal(name, id, brandId){
   let editBrand = document.getElementById("editBrand");
-  editBrand.querySelector('#brandName').value = name;
-  editBrand.querySelector('#brandId').value = id;
-  let brandSelect = editBrand.querySelector('#brandModels');
+  editBrand.querySelector('#name').value = name;
+  editBrand.querySelector('#id').value = id;
+  let brandSelect = editBrand.querySelector('#brand');
+  console.log(brandId, 'brandId');
   if(brandId) {
     brandSelect.value = brandId;
   }
@@ -112,19 +78,13 @@ if(search){
   })
 }
 
-let refreshPage = document.getElementById('refreshPage');
-if(refreshPage){
-  refreshPage.addEventListener('click', function(){
-      location.reload();
-  })
-}
 
 async function allModels(param = {}) {
   try {
       let all = await window.electron.getAllModels(param);
       let brands = document.querySelector("#models tbody");
       let html = '';
-      console.log(all, 'alldddd');
+      console.log(all, 'all');
       if(all?.data?.length > 0){
         for (let element of all.data) {
             html += `<tr>
@@ -154,7 +114,7 @@ async function modelsDelete(id){
       confirmButtonText: "Yes, delete it!"
     }).then( async (result) => {
       if (result.isConfirmed) {
-        await window.electron.deleteModels(id);
+        await window.electron.deleteModel(id);
         allModels();
       }
     });
@@ -169,10 +129,11 @@ async function modelsDelete(id){
 
 document.getElementById("editSaveButton").addEventListener("click", async function (event) {
   event.preventDefault();
-  let name    = document.getElementById("brandName").value;
-  let brandId = document.getElementById("brandId").value;
-  let brandSelect = document.querySelector('#brandModels').value;
-  if (name.length === 0 || brandSelect == '' ) {
+  let container = this.parentElement.previousElementSibling
+  let name    = container.querySelector("#name").value;
+  let id = container.querySelector("#id").value;
+  let brand = container.querySelector('#brand').value;
+  if (name.length === 0 || brand == '' ) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -181,12 +142,12 @@ document.getElementById("editSaveButton").addEventListener("click", async functi
       return;
   }
   try {
-      await window.electron.editModal(name, brandId, brandSelect);
+      await window.electron.editModel(name, id, brand);
       Swal.fire({title: "Add!", text: "Modal edit successfully!", icon: "success" });
       let editBrand = document.getElementById("editBrand");
       let brandModal = bootstrap.Modal.getInstance(editBrand);
       brandModal.hide();
-      allBrands();
+      allModels();
   } catch (error) {
       Swal.fire({
         icon: "error",

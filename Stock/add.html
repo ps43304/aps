@@ -17,28 +17,28 @@
             <div class="card">
                 <div class="card-body">
                     <form>
-                        <div class="row mb-3">
-                            <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
                                 <label>Type Name</label>
                                 <input name="type_name" class="form-control" id="type_name" />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label>Brand Name</label>
-                                <select name="brand_id" class="form-control">
-                                    <option>--Select--</option>
+                                <select class="brandDropdown form-control brands" id="brandDropdown">
+                                    <option value="">-- Select Brand --</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label>Model Name</label>
-                                <select name="model_id" class="form-control">
-                                    <option>--Select--</option>
+                                <select class="modelDropdown form-control models" id="modelDropdown">
+                                    <option value="">-- Model Brand --</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label>Quantity</label>
                                 <input name="qty" class="form-control" id="qty" />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label>Price</label>
                                 <input name="price" class="form-control" id="price" />
                             </div>
@@ -49,5 +49,6 @@
         </div>
         <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="./Modal.js" ></script>
+        <script src="../Common.js" ></script>
     </body>
 </html>

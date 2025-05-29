@@ -1,10 +1,12 @@
 
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('node:path')
-const { insertBrand, getAllBrands, deleteBrand, editBrand } = require('./Brand/database');
-const { getAllBrandsInModal, insertModal, getAllModels, deleteModels, editModal } = require('./Modal/database');
+const { insertBrand, getAllBrands, deleteBrand, editBrand, existBrand } = require('./Brand/database');
+const { getAllBrandsInModal, insertModal, getAllModels, deleteModel, editModel, existModel } = require('./Modal/database');
 
-const { getAllBrandsInType } = require('./Type/database');
+const { getBrandByModel, getAllTypes, existType, insertType, editTypes, deleteType } = require('./Type/database');
+const { insertStock, getAllStock, existStock, editStock, viewDetail } = require('./Stock/database');
+const { insertBill, getAllBill } = require('./Bill/database');
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
@@ -32,19 +34,18 @@ const createWindow = () => {
     })
 
     const menuTemplate = [
+      { label: "Brand", click: () => mainWindow.loadFile("Brand/index.html") },
+      { label: "Model", click: () => mainWindow.loadFile("Modal/index.html") },
+      { label: "Product", click: () =>  mainWindow.loadFile("Type/index.html") },
+      { label: "Stock", click: () => mainWindow.loadFile("Stock/list.html")},
       {
-        label: "File", // यहाँ मेनू का नया नाम डालें
+        label: "Bill",
         submenu: [
-          { label: "Brand", click: () => mainWindow.loadFile("Brand/index.html") },
-          { label: "Model", click: () => mainWindow.loadFile("Modal/index.html") },
-          { label: "Type", click: () =>  mainWindow.loadFile("Type/index.html") },
-          { label: "Exit", role: "quit" }
+          { label: "Add", click: () => mainWindow.loadFile("Bill/add.html") },
+          { label: "List", click: () => mainWindow.loadFile("Bill/List.html") }
         ]
       },
-      {
-        label: "Stock",
-        click: () => mainWindow.loadFile("Stock/list.html")
-      },
+      { label: "Exit", role: "quit" },
       {
         label: "View",
         submenu: [
@@ -102,8 +103,27 @@ const createWindow = () => {
       });
     });
 
+    ipcMain.handle("existBrand", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        existBrand(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+
 
     /*  Modal  */
+
+  
+    ipcMain.handle("getAllModels", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        getAllModels(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
 
     ipcMain.handle("getAllBrandsInModal", async () => {
       return new Promise((resolve, reject) => {
@@ -122,59 +142,175 @@ const createWindow = () => {
         });
       });
     });
+
+    ipcMain.handle("existModel", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        existModel(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+
+    ipcMain.handle('deleteModel', async (_, id) => {
+      return new Promise((resolve, reject) => {
+        deleteModel(id, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    ipcMain.handle('editModel', async (_, name, id, brand) => {
+     
+      return new Promise((resolve, reject) => {
+        editModel(name, id, brand, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+    
+    
+    /* Type Modules */
+    
+    ipcMain.handle("getBrandByModel", async (_, param = {}) => {
+      return new Promise((resolve, reject) => {
+        getBrandByModel(param , (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+    
+    ipcMain.handle("getAllTypes", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        getAllTypes(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+    
+    ipcMain.handle("existType", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        existType(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+    
+    ipcMain.handle('insertType', async (_, param) => {
+      return new Promise((resolve, reject) => {
+        insertType(param, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+    
+    ipcMain.handle('editTypes', async (_, param) => {
+     
+      return new Promise((resolve, reject) => {
+        editTypes(param, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    ipcMain.handle('deleteType', async (_, id) => {
+      return new Promise((resolve, reject) => {
+        deleteType(id, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    /* Stock */
+    
+    ipcMain.handle('insertStock', async (_, param) => {
+      return new Promise((resolve, reject) => {
+        insertStock(param, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    ipcMain.handle("getAllStock", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        getAllStock(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+
+    ipcMain.handle("existStock", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        existStock(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
+
+    ipcMain.handle('editStock', async (_, param) => {
+      return new Promise((resolve, reject) => {
+        editStock(param, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+    
+    ipcMain.handle('viewDetail', async (_, id) => {
+      return new Promise((resolve, reject) => {
+        viewDetail(id, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    /* Bill Module */
+
+    ipcMain.handle('insertBill', async (_, param) => {
+      return new Promise((resolve, reject) => {
+        insertBill(param, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    });
+
+    ipcMain.handle("getAllBill", async (_, param={}) => {
+      return new Promise((resolve, reject) => {
+        getAllBill(param, (err, brands) => {
+          if (err)  resolve({ error: true, message: err.message });
+          else resolve({ error: false, data: brands });
+        });
+      });
+    });
     
 
-    /* Type Modules */
 
-    ipcMain.handle("getAllBrandsInType", async () => {
-      return new Promise((resolve, reject) => {
-        getAllBrandsInType((err, brands) => {
-          if (err)  resolve({ error: true, message: err.message });
-          else resolve({ error: false, data: brands });
-        });
-      });
-    });
-
-    ipcMain.handle("getAllModels", async (_, param={}) => {
-      return new Promise((resolve, reject) => {
-        getAllModels(param, (err, brands) => {
-          if (err)  resolve({ error: true, message: err.message });
-          else resolve({ error: false, data: brands });
-        });
-      });
-    });
-
-    ipcMain.handle('deleteModels', async (_, id) => {
-      return new Promise((resolve, reject) => {
-        deleteModels(id, (err, user) => {
-          if (err) reject(err);
-          else resolve(user);
-        });
-      });
-    });
-
-    ipcMain.handle('editModal', async (_, name, id, brandSelect) => {
-      return new Promise((resolve, reject) => {
-        editModal(name, id, brandSelect, (err, user) => {
-          if (err) reject(err);
-          else resolve(user);
-        });
-      });
-    });
-
-
-  mainWindow.loadURL(`index.html`);
-}
-
-
-app.whenReady().then(() => {
+    
+    mainWindow.loadURL(`index.html`);
+  }
+  
+  
+  app.whenReady().then(() => {
   createWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
+    })
 })
 
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
-})
+  })
